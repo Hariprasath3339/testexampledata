@@ -8,7 +8,10 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
+import POM.BasicInfo;
+import POM.FileUpload;
 import POM.Login;
+import POM.ROI;
 import Utilities.ExtentTestNGListener;
 import io.github.bonigarcia.wdm.WebDriverManager;
 
@@ -17,6 +20,9 @@ public class PropertTest_Vacant {
 
 	public static WebDriver driver;
 	Login login;
+	BasicInfo base;
+	ROI roi;
+	FileUpload FU;
 
 	@BeforeClass
 	public void before() throws Exception {
@@ -26,22 +32,29 @@ public class PropertTest_Vacant {
 		// Setup ChromeDriver
 		WebDriverManager.chromedriver().setup();
 
-		// ✅ Add Chrome Options (HEADLESS MODE)
+		// Chrome Options (Normal Mode)
 		ChromeOptions options = new ChromeOptions();
-		options.addArguments("--headless=new"); // modern headless mode
-		options.addArguments("--disable-gpu");
-		options.addArguments("--window-size=1920,1080");
 
-		// Launch Browser (HEADLESS)
+		// Remove Headless Mode
+		// options.addArguments("--headless=new");
+
+		options.addArguments("--start-maximized");
+		options.addArguments("--disable-notifications");
+		options.addArguments("--remote-allow-origins=*");
+
+		// Launch Browser
 		driver = new ChromeDriver(options);
 
-		// No need for maximize in headless, but safe to keep logic consistent
+		// Maximize Window
 		driver.manage().window().maximize();
 
 		// Create Login Page Object
 		login = new Login(driver);
+		base = new BasicInfo(driver);
+		roi = new ROI(driver);
+		FU = new FileUpload(driver);
 
-		System.out.println("Chrome Driver Created (HEADLESS MODE)");
+		System.out.println("Chrome Driver Created (NORMAL MODE)");
 	}
 
 	@Test(priority = 1)
@@ -54,13 +67,28 @@ public class PropertTest_Vacant {
 		System.out.println("====== LOGIN COMPLETED ======");
 	}
 
+	@Test(priority = 2)
+	public void MP_VAC_TS001() throws Exception {
+		base.Basic_Vacant();
+	}
+
+	@Test(priority = 3)
+	public void MP_VAC_TS002() throws Exception {
+		roi.ROIESTIMATOR();
+	}
+
+	@Test(priority = 4)
+	public void MP_VAC_TS003() throws Exception {
+		FU.FILEUPLOAD_Vacant();
+	}
+
 	@AfterClass
 	public void after() {
 
 		System.out.println("====== AFTER CLASS EXECUTED ======");
 
-		if (driver != null) {
-			driver.quit();
-		}
+//		if (driver != null) {
+//		//	driver.quit();
+//		}
 	}
 }

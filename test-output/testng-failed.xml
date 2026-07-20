@@ -5,9 +5,11 @@
     <classes>
       <class name="RunnerTest.PropertTest_Vacant">
         <methods>
-          <include name="SpaciraLogin"/>
-          <include name="before"/>
+          <include name="MP_VAC_TS001"/>
           <include name="after"/>
+          <include name="before"/>
+          <include name="MP_VAC_TS003"/>
+          <include name="MP_VAC_TS002"/>
         </methods>
       </class> <!-- RunnerTest.PropertTest_Vacant -->
     </classes>
